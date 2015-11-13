@@ -13,3 +13,9 @@
 [submodule "schema-html"]
 	path = schema-html
 	url = https://github.com/transpect/schema-html
+[submodule "calabash"]
+	path = calabash
+	url = https://github.com/transpect/calabash-frontend
+[submodule "schematron"]
+	path = schematron
+	url = https://github.com/transpect/schematron
