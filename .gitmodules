@@ -1,0 +1,15 @@
+[submodule "epubtools"]
+	path = epubtools
+	url = https://github.com/transpect/epubtools
+[submodule "css-tools"]
+	path = css-tools
+	url = https://github.com/transpect/css-tools
+[submodule "xproc-util"]
+	path = xproc-util
+	url = https://github.com/transpect/xproc-util
+[submodule "xslt-util"]
+	path = xslt-util
+	url = https://github.com/transpect/xslt-util
+[submodule "schema-html"]
+	path = schema-html
+	url = https://github.com/transpect/schema-html
