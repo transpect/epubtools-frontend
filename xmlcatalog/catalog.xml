@@ -7,6 +7,7 @@
   <nextCatalog catalog="../css-tools/xmlcatalog/catalog.xml"/>
   <nextCatalog catalog="../epubtools/xmlcatalog/catalog.xml"/>
   <nextCatalog catalog="../schema-html/xmlcatalog/catalog.xml"/>
+  <nextCatalog catalog="../schematron/xmlcatalog/catalog.xml"/>
   <nextCatalog catalog="../xproc-util/xmlcatalog/catalog.xml"/>
   <nextCatalog catalog="../xslt-util/xmlcatalog/catalog.xml"/>
   
