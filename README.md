@@ -60,7 +60,7 @@ Here is an example for a basic configuration. If you open the oXygen project fil
 automatically validated (RelaxNG and Schematron). You can also find a commented version of this
 file [here](https://github.com/transpect/epubtools/blob/13f250dd3dac3de7b72416cace4d14d56d255b1a/sample/epub-config.xml)
 
-Major parameters are configured with the `` attributes.
+Major parameters are configured with the `epub-config` attributes:
 
 Location                                          | Description
 ----------------------------------------------    | -------------
@@ -70,8 +70,9 @@ Location                                          | Description
  `epub-config/@html-subdir-name`                  | name of html subdirectory
  `epub-config/@indent`                            | true|false|selective (If indent="selective", p:store will store non-indented, and the indent before paragraphs etc)
  
+ The element `metadata` includes additional metadata information which is later stored in the OPF file.
  
- 
+ The `hierarchy` element is used to configures how the HTML is split into chunks.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>   
