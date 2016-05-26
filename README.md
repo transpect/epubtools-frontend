@@ -72,7 +72,7 @@ Location                                          | Description
  
  The element `metadata` includes additional metadata information which is later stored in the OPF file.
  
- The `hierarchy` element is used to configures how the HTML is split into chunks.
+ The `hierarchy` element is used to configure how the HTML is split into chunks.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>   
