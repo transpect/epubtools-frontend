@@ -134,8 +134,6 @@ fi
 HEAP=$HEAP $CALABASH \
     -i source=$FILE \
     -i meta=$CONF \
-    -o result=$OUT_DIR/$BASENAME.tex \
-    -o hub=$OUT_DIR/$BASENAME.xml \
     $DIR/xpl/epubtools-frontend.xpl \
     debug=$DEBUG \
     debug-dir-uri=$DEBUG_DIR_URI \
