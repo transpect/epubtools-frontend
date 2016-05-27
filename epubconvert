@@ -134,7 +134,7 @@ fi
 HEAP=$HEAP $CALABASH \
     -i source=$FILE \
     -i meta=$CONF \
-    $DIR/xpl/epubtools-frontend.xpl \
+    $DIR/epubtools/xpl/epub-convert.xpl \
     debug=$DEBUG \
     debug-dir-uri=$DEBUG_DIR_URI \
     status-dir-uri=$DEBUG_DIR_URI/status 2>&1 2>>$LOG || exitonerror $? epubtools
