@@ -1,6 +1,3 @@
-[submodule "epubtools"]
-	path = epubtools
-	url = https://github.com/transpect/epubtools
 [submodule "css-tools"]
 	path = css-tools
 	url = https://github.com/transpect/css-tools
