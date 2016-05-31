@@ -26,7 +26,6 @@ cygwin=false;
 case "`uname`" in
     CYGWIN*) cygwin=true;
 esac
-
 # script directory
 DIR="$( cd -P "$(dirname $( readlink -f "$0" ))" && pwd )"
 PWD=$(readlink -f .)
@@ -61,7 +60,6 @@ shift $((OPTIND-1))
 if [ -z $1 ]; then
     usage
 fi
-
 # file as 1st argument
 FILE=$(readlink -f $1)
 
@@ -112,7 +110,11 @@ fi
 
 # check if file exists
 if [ ! -f $FILE ]; then
-    echo "Error: input file not found: $FILE"
+    echo "ERROR: input file not found: $FILE"
+    usage
+fi
+if [ ! -f $CONF ]; then
+    echo "ERROR: input file not found: $CONF"
     usage
 fi
 
@@ -135,6 +137,7 @@ HEAP=$HEAP $CALABASH \
     -i source=$FILE \
     -i meta=$CONF \
     $DIR/epubtools/xpl/epub-convert.xpl \
+    terminate-on-error=no \
     debug=$DEBUG \
     debug-dir-uri=$DEBUG_DIR_URI \
     status-dir-uri=$DEBUG_DIR_URI/status 2>&1 2>>$LOG || exitonerror $? epubtools
