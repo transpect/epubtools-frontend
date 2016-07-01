@@ -9,6 +9,7 @@ function usage {
     echo "Options:"
     echo "   -o    relative or absolute path to custom output directory"
     echo "   -c    relative or absolute path to configuration file"
+    echo "   -r    escape region magnification"
     echo "   -d    debug mode"
     1>&2; exit 1;
 }
@@ -65,6 +66,7 @@ FILE=$(readlink -f $1)
 
 # basename
 BASENAME=$(basename $FILE .html)
+BASENAME=$(basename $BASENAME .xhtml)
 
 if [[ -z "$CONF" ]]; then
     CONF=$DIR/epubtools/sample/epub-config.xml
@@ -129,6 +131,8 @@ if [ "$DEBUG" = "yes" ]; then
     echo "  outdir: $OUT_DIR"
     echo "  file: $FILE"
     echo "  config: $CONF"
+    echo "  debug: $DEBUG"
+    echo "  debug-dir-uri $DEBUG_DIR_URI"
     echo ""
 fi
 
@@ -140,7 +144,7 @@ HEAP=$HEAP $CALABASH \
     terminate-on-error=no \
     debug=$DEBUG \
     debug-dir-uri=$DEBUG_DIR_URI \
-    status-dir-uri=$DEBUG_DIR_URI/status 2>&1 2>>$LOG || exitonerror $? epubtools
+    status-dir-uri=$DEBUG_DIR_URI/status 2>&1 2>>$LOG 1>>$LOG || exitonerror $? epubtools
 
 echo "writing EPUB file => $OUT_DIR/$BASENAME.epub"
 echo "epubconvert finished, for details see $LOG"
