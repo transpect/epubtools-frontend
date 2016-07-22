@@ -9,7 +9,7 @@ function usage {
     echo "Options:"
     echo "   -o    relative or absolute path to custom output directory"
     echo "   -c    relative or absolute path to configuration file"
-    echo "   -r    escape region magnification"
+    echo "   -f    format: 'EPUB2' | 'EPUB3' | 'KF8' // DEFAULT: 'EPUB2'"
     echo "   -d    debug mode"
     1>&2; exit 1;
 }
@@ -43,6 +43,9 @@ while getopts ":o:c:d" opt; do
 	c)
 	    CONF=${OPTARG}
 	    ;;
+	f)
+	    FORMAT=${OPTARG}
+	    ;;
 	d)
 	    DEBUG=yes
 	    ;;
@@ -68,8 +71,15 @@ FILE=$(readlink -f $1)
 BASENAME=$(basename $FILE .html)
 BASENAME=$(basename $BASENAME .xhtml)
 
+# config
+CONFIG_IN_INPUTDIR="$(dirname $FILE)/epub-config.xml"
+
 if [[ -z "$CONF" ]]; then
-    CONF=$DIR/epubtools/sample/epub-config.xml
+    if [ -e $CONFIG_IN_INPUTDIR ]; then
+	CONF=$CONFIG_IN_INPUTDIR
+    else
+	CONF=$DIR/epubtools/sample/epub-config.xml
+    fi
 else
 if [[ "$CONF" != /* ]]; then 
     CONF=$PWD/$CONF
@@ -140,11 +150,12 @@ fi
 HEAP=$HEAP $CALABASH \
     -i source=$FILE \
     -i meta=$CONF \
-    $DIR/epubtools/xpl/epub-convert.xpl \
+    $DIR/xpl/epubtools-frontend.xpl \
     terminate-on-error=no \
+    target=$FORMAT \
     debug=$DEBUG \
     debug-dir-uri=$DEBUG_DIR_URI \
-    status-dir-uri=$DEBUG_DIR_URI/status 2>&1 2>>$LOG 1>>$LOG || exitonerror $? epubtools
+    status-dir-uri=$DEBUG_DIR_URI/status 2>&1 2>>$LOG || exitonerror $? epubtools
 
 echo "writing EPUB file => $OUT_DIR/$BASENAME.epub"
 echo "epubconvert finished, for details see $LOG"
