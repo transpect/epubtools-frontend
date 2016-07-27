@@ -105,9 +105,11 @@ if [ -e $LOG ]; then
     rm $LOG
 fi
 
-
 # debugging
 DEBUG_DIR=$OUT_DIR/$BASENAME.debug
+if [ -e $DEBUG_DIR ]; then
+    rm -rf $DEBUG_DIR
+fi
 
 # make absolute paths
 if $cygwin; then
@@ -160,3 +162,15 @@ HEAP=$HEAP $CALABASH \
 echo "writing EPUB file => $OUT_DIR/$BASENAME.epub"
 echo "epubconvert finished, for details see $LOG"
 echo ""
+
+# post processing actions
+
+# apply script to escape HTML code for Amazon Region Magnification
+
+if grep '<meta name="RegionMagnification" content="true"/>' "$CONF" >> /dev/null; then
+    for file in $(find $OUT_DIR/epub -name '*.xhtml'); do
+	$DIR/epubtools/scripts/escape-for-amzn-region-magnification.sh $file
+    done
+    rm "$OUT_DIR/$BASENAME.epub"
+    cd "$OUT_DIR/epub" && zip -X0 "../$BASENAME.epub" "mimetype" && zip -Xr "../$BASENAME.epub" "META-INF/" "OEBPS/"
+fi
