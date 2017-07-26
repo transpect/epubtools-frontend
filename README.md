@@ -15,7 +15,8 @@ You can either download this repository as Zip file or use Git or SVN.
 $ git clone git@github.com:transpect/epubtools-frontend.git --recursive
 ```
 ### Checkout with SVN
-````
+
+```
 $ svn co https://github.com/transpect/epubtools-frontend/trunk
 ```
 
@@ -47,6 +48,7 @@ Option  | Description
 ```
 
 ### Windows
+
 ```
  ./calabash/calabash.bat \
     -i source=myInputFile.html \
