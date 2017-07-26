@@ -15,7 +15,8 @@ You can either download this repository as Zip file or use Git or SVN.
 $ git clone git@github.com:transpect/epubtools-frontend.git --recursive
 ```
 ### Checkout with SVN
-````
+
+```
 $ svn co https://github.com/transpect/epubtools-frontend/trunk
 ```
 
@@ -47,6 +48,7 @@ Option  | Description
 ```
 
 ### Windows
+
 ```
  ./calabash/calabash.bat \
     -i source=myInputFile.html \
@@ -85,7 +87,7 @@ Location                                          | Description
   html-subdir-name="text" 
   indent="selective">
 	
-	<cover href="images/cover.png" svg="true"/>
+  <cover href="images/cover.png" svg="true"/>
 	
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:identifier format="EPUB3">89392383923</dc:identifier>
