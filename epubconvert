@@ -27,9 +27,21 @@ cygwin=false;
 case "`uname`" in
     CYGWIN*) cygwin=true;
 esac
+
+# readlink -f is unavailable on Mac OS X
+function real_dir() {
+    SOURCE="$1"
+    while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+	DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+	SOURCE="$(readlink "$SOURCE")"
+	[[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    done
+    echo "$( cd -P "$( dirname "$SOURCE" )" && pwd  )"
+}
+
 # script directory
-DIR="$( cd -P "$(dirname $( readlink -f "$0" ))" && pwd )"
-PWD=$(readlink -f .)
+DIR="$( cd -P "$(dirname $( real_dir "$0" ))" && pwd )"
+PWD=$(real_dir .)
 CALABASH=$DIR/calabash/calabash.sh
 HEAP=1024m
 # epubconvert configuration
@@ -65,7 +77,7 @@ if [ -z $1 ]; then
     usage
 fi
 # file as 1st argument
-FILE=$(readlink -f $1)
+FILE=$(real_dir $1)
 
 # basename
 BASENAME=$(basename $FILE .html)
@@ -88,7 +100,7 @@ fi
 
 # output directory
 if [[ -z "$OUT_DIR" ]]; then
-    OUT_DIR="$(dirname $(readlink -f "$FILE" ))"
+    OUT_DIR="$(dirname $(real_dir "$FILE" ))"
 else
 if [[ "$OUT_DIR" != /* ]]; then 
     OUT_DIR="$PWD/$OUT_DIR"
@@ -119,7 +131,7 @@ if $cygwin; then
     CONF=$(cygpath -ma "$CONF")
     DEBUG_DIR_URI=file:/$(cygpath -ma "$DEBUG_DIR" )
 else
-    DEBUG_DIR_URI=file:$(readlink -f $DEBUG_DIR)
+    DEBUG_DIR_URI=file:$(real_dir $DEBUG_DIR)
 fi
 
 # check if file exists
