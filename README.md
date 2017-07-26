@@ -6,6 +6,10 @@ The epubtools library takes an XHTML file as input and generates an EPUB. Refere
 JavaScript and images are automatically stored in the EPUB file. Layout, format and other parameters are 
 configured in an XML file. 
 
+## Requirements
+
+Java 1.7+
+
 ## Download
 
 You can either download this repository as Zip file or use Git or SVN.
