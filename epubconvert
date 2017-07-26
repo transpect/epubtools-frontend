@@ -21,6 +21,15 @@ function exitonerror {
 function log {
     2>&1 2>>$OUT_DIR/$BASENAME.log
 }
+function real_dir() {
+    SOURCE="$1"
+    while [ -h "$SOURCE" ]; do
+        DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+        SOURCE="$(readlink "$SOURCE")"
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" 
+    done
+    echo "$( cd -P "$( dirname "$SOURCE" )" && pwd  )"
+}
 
 # cygwin check
 cygwin=false;
@@ -28,8 +37,7 @@ case "`uname`" in
     CYGWIN*) cygwin=true;
 esac
 # script directory
-DIR="$( cd -P "$(dirname $( readlink -f "$0" ))" && pwd )"
-PWD=$(readlink -f .)
+DIR="$( real_dir "${BASH_SOURCE[0]}" )"
 CALABASH=$DIR/calabash/calabash.sh
 HEAP=1024m
 # epubconvert configuration
@@ -65,7 +73,7 @@ if [ -z $1 ]; then
     usage
 fi
 # file as 1st argument
-FILE=$(readlink -f $1)
+FILE="$1"
 
 # basename
 BASENAME=$(basename $FILE .html)
@@ -82,16 +90,16 @@ if [[ -z "$CONF" ]]; then
     fi
 else
 if [[ "$CONF" != /* ]]; then 
-    CONF=$PWD/$CONF
+    CONF=$DIR/$CONF
 fi
 fi
 
 # output directory
 if [[ -z "$OUT_DIR" ]]; then
-    OUT_DIR="$(dirname $(readlink -f "$FILE" ))"
+    OUT_DIR="$(dirname "$FILE")"
 else
 if [[ "$OUT_DIR" != /* ]]; then 
-    OUT_DIR="$PWD/$OUT_DIR"
+    OUT_DIR="$DIR/$OUT_DIR"
 fi
 fi
 
@@ -119,7 +127,7 @@ if $cygwin; then
     CONF=$(cygpath -ma "$CONF")
     DEBUG_DIR_URI=file:/$(cygpath -ma "$DEBUG_DIR" )
 else
-    DEBUG_DIR_URI=file:$(readlink -f $DEBUG_DIR)
+    DEBUG_DIR_URI=file:$(real_dir $DEBUG_DIR)
 fi
 
 # check if file exists
