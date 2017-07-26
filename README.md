@@ -87,7 +87,7 @@ Location                                          | Description
   html-subdir-name="text" 
   indent="selective">
 	
-	<cover href="images/cover.png" svg="true"/>
+  <cover href="images/cover.png" svg="true"/>
 	
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:identifier format="EPUB3">89392383923</dc:identifier>
