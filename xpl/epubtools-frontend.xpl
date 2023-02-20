@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
   xmlns:c="http://www.w3.org/ns/xproc-step" 
+  xmlns:tr="http://transpect.io"
   xmlns:epub="http://transpect.io/epubtools" 
   version="1.0" 
   name="epubtools-frontend"
@@ -15,6 +16,33 @@
   <p:option name="terminate-on-error" select="'yes'"/>
   
   <p:import href="http://transpect.io/epubtools/xpl/epub-convert.xpl"/>
+  <p:import href="http://transpect.io/xproc-util/file-uri/xpl/file-uri.xpl"/>
+  <p:import href="http://transpect.io/xproc-util/store-debug/xpl/store-debug.xpl"/>
+  
+  <tr:file-uri name="base-uri">
+    <p:with-option name="filename" select="/*/base-uri()"/>
+  </tr:file-uri>
+  
+  <tr:store-debug pipeline-step="epubtools-frontend/file-uri">
+    <p:with-option name="active" select="$debug"/>
+    <p:with-option name="base-uri" select="$debug-dir-uri"/>
+  </tr:store-debug>
+  
+  <p:sink/>
+  
+  <p:add-attribute match="/*" attribute-name="xml:base">
+    <p:input port="source">
+      <p:pipe port="source" step="epubtools-frontend"/>
+    </p:input>
+    <p:with-option name="attribute-value" select="/c:result/@href">
+      <p:pipe port="result" step="base-uri"/>
+    </p:with-option>
+  </p:add-attribute>
+  
+  <tr:store-debug pipeline-step="epubtools-frontend/input-html">
+    <p:with-option name="active" select="$debug"/>
+    <p:with-option name="base-uri" select="$debug-dir-uri"/>
+  </tr:store-debug>
   
   <epub:convert>
     <p:input port="meta">
