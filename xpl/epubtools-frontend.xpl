@@ -15,6 +15,7 @@
   <p:option name="status-dir-uri" select="'status'"/>
   <p:option name="terminate-on-error" select="'yes'"/>
   
+  <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
   <p:import href="http://transpect.io/epubtools/xpl/epub-convert.xpl"/>
   <p:import href="http://transpect.io/xproc-util/file-uri/xpl/file-uri.xpl"/>
   <p:import href="http://transpect.io/xproc-util/store-debug/xpl/store-debug.xpl"/>
@@ -30,7 +31,7 @@
   
   <p:sink/>
   
-  <p:add-attribute match="/*" attribute-name="xml:base">
+  <p:add-attribute match="/*" attribute-name="xml:base" name="add-xml-base">
     <p:input port="source">
       <p:pipe port="source" step="epubtools-frontend"/>
     </p:input>
@@ -44,7 +45,7 @@
     <p:with-option name="base-uri" select="$debug-dir-uri"/>
   </tr:store-debug>
   
-  <epub:convert>
+  <epub:convert name="epub-convert">
     <p:input port="meta">
       <p:pipe port="meta" step="epubtools-frontend"/>
     </p:input>
