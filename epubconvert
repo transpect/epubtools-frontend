@@ -9,7 +9,7 @@ function usage {
     echo "Options:"
     echo "   -o    relative or absolute path to custom output directory"
     echo "   -c    relative or absolute path to configuration file"
-    echo "   -f    format: 'EPUB2' | 'EPUB3' | 'KF8' // DEFAULT: 'EPUB2'"
+    echo "   -f    format: 'EPUB2' | 'EPUB3' | 'KF8' // DEFAULT: 'EPUB3'"
     echo "   -d    debug mode"
     1>&2; exit 1;
 }
@@ -52,10 +52,11 @@ function real_dir() {
 DIR="$( real_dir "${BASH_SOURCE[0]}" )"
 CALABASH=$DIR/calabash/calabash.sh
 HEAP=1024m
+FORMAT=EPUB3
 # epubconvert configuration
 
 # specify options
-while getopts ":o:c:d" opt; do
+while getopts ":f:o:c:d" opt; do
     case "${opt}" in
 	o)
 	    OUT_DIR=${OPTARG}
